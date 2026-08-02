@@ -11,6 +11,23 @@ adding income and expenses. Each action opens a focused modal form with the
 transaction type already selected. New entries immediately update the summary
 totals, item count, and recent-transactions list.
 
+### Transaction dashboard
+
+![Expense Tracker dashboard with Add Income and Add Expense actions](docs/expense-tracker-demo.png)
+
+### Add Income
+
+The income category is preselected and locked so income entries are always
+classified consistently.
+
+![Add Income modal with the Income category selected](docs/expense-tracker-income-modal.png)
+
+### Add Expense
+
+The expense form offers only expense-related category choices.
+
+![Add Expense modal with expense categories](docs/expense-tracker-expense-modal.png)
+
 ## Current features
 
 - Reusable summary, form, list, and transaction-item components
