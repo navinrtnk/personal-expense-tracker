@@ -34,26 +34,6 @@ h1 {
   letter-spacing: -0.04em;
 }
 
-.primary-button {
-  border: 0;
-  border-radius: 0.75rem;
-  padding: 0.8rem 1rem;
-  color: #ffffff;
-  background: #0f766e;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.primary-button:hover {
-  background: #115e59;
-}
-
-.primary-button:focus-visible {
-  outline: 3px solid #5eead4;
-  outline-offset: 3px;
-}
-
 main {
   display: grid;
   gap: 1.5rem;
@@ -316,10 +296,6 @@ main {
   .app-header {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .primary-button {
-    width: 100%;
   }
 
   .summary {

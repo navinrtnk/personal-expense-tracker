@@ -50,10 +50,6 @@ function App() {
     ])
   }
 
-  function focusTransactionForm() {
-    descriptionInputRef.current?.focus()
-  }
-
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -61,13 +57,6 @@ function App() {
           <p className="eyebrow">Personal finance</p>
           <h1>Expense Tracker</h1>
         </div>
-        <button
-          className="primary-button"
-          type="button"
-          onClick={focusTransactionForm}
-        >
-          Add transaction
-        </button>
       </header>
 
       <main>
