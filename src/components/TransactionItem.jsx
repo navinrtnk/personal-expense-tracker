@@ -10,7 +10,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
 })
 
-function TransactionItem({ transaction }) {
+function TransactionItem({ transaction, onDeleteRequest }) {
   const isIncome = transaction.type === 'income'
   const amountPrefix = isIncome ? '+' : '-'
 
@@ -32,6 +32,17 @@ function TransactionItem({ transaction }) {
         {amountPrefix}
         {currencyFormatter.format(transaction.amount)}
       </strong>
+      <button
+        className="delete-button"
+        type="button"
+        aria-label={`Delete ${transaction.description}`}
+        title={`Delete ${transaction.description}`}
+        onClick={() => onDeleteRequest(transaction)}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3h6l1 2h4v2H4V5h4l1-2Zm-2 6h10l-.7 11H7.7L7 9Zm3 2v7h2v-7h-2Zm4 0v7h2v-7h-2Z" />
+        </svg>
+      </button>
     </li>
   )
 }

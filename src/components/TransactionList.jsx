@@ -1,6 +1,6 @@
 import TransactionItem from './TransactionItem'
 
-function TransactionList({ transactions }) {
+function TransactionList({ transactions, onDeleteRequest }) {
   return (
     <section className="transactions" aria-labelledby="transactions-heading">
       <div className="section-heading transaction-list-heading">
@@ -14,7 +14,11 @@ function TransactionList({ transactions }) {
       </div>
       <ul className="transaction-list">
         {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id} transaction={transaction} />
+          <TransactionItem
+            key={transaction.id}
+            transaction={transaction}
+            onDeleteRequest={onDeleteRequest}
+          />
         ))}
       </ul>
     </section>

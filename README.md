@@ -30,6 +30,13 @@ The expense form offers only expense-related category choices.
 
 ![Add Expense modal with expense categories](docs/expense-tracker-expense-modal.png)
 
+### Delete a transaction
+
+Each transaction has a delete control that opens a confirmation dialog before
+the entry is removed.
+
+![Delete transaction confirmation dialog](docs/expense-tracker-delete-dialog.png)
+
 ## Current features
 
 - Reusable summary, form, list, and transaction-item components
@@ -38,6 +45,8 @@ The expense form offers only expense-related category choices.
 - Income category locked to Income and expense-only category choices
 - Controlled inputs for description, amount, category, and date
 - Add income and expense transactions to React state
+- Delete transactions through a confirmation dialog
+- Recalculate balance, income, and expenses after deletion
 - Basic validation for descriptions and positive amounts
 - Escape, Cancel, and Close controls for dismissing the modal
 - Automatic form focus when a modal opens
@@ -48,7 +57,7 @@ The expense form offers only expense-related category choices.
 
 ## Planned features
 
-- Edit and delete transactions
+- Edit transactions
 - Filter transactions by type and category
 - Save transactions with local storage
 
@@ -65,7 +74,8 @@ The expense form offers only expense-related category choices.
 
 The test suite covers the initial sample dashboard, calculated totals, modal
 defaults, adding income and expenses, category rules, validation, and rendered
-transaction updates.
+transaction updates. It also verifies canceling and confirming transaction
+deletion, including the resulting summary calculations.
 
 Run the complete suite once:
 

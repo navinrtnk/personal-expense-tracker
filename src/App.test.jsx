@@ -92,3 +92,37 @@ describe('adding transactions', () => {
     expect(screen.getByText('4 items')).toBeInTheDocument()
   })
 })
+
+describe('deleting transactions', () => {
+  it('keeps a transaction when deletion is canceled', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'Delete Apartment rent' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Delete transaction?' })
+    expect(within(dialog).getByText('Apartment rent')).toBeInTheDocument()
+
+    await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getByText('Apartment rent')).toBeInTheDocument()
+    expect(screen.getByText('4 items')).toBeInTheDocument()
+  })
+
+  it('deletes a transaction and recalculates the summary', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'Delete Grocery run' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Delete transaction?' })
+    await user.click(within(dialog).getByRole('button', { name: 'Delete' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.queryByText('Grocery run')).not.toBeInTheDocument()
+    expect(screen.getByText('3 items')).toBeInTheDocument()
+    expect(screen.getByText('$2,400.00')).toBeInTheDocument()
+    expect(screen.getByText('$1,250.00')).toBeInTheDocument()
+  })
+})

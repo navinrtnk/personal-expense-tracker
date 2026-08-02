@@ -366,7 +366,7 @@ main {
 
 .transaction-item {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.9rem;
   padding: 1.1rem 2rem;
@@ -412,9 +412,109 @@ main {
   font-size: 0.8rem;
 }
 
-.transaction-item > strong:last-child {
+.transaction-item > strong {
   font-size: 0.95rem;
   white-space: nowrap;
+}
+
+.delete-button {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 0.6rem;
+  color: #94a3b8;
+  background: transparent;
+  cursor: pointer;
+}
+
+.delete-button svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+.delete-button:hover {
+  color: #be123c;
+  background: #fff1f2;
+}
+
+.delete-button:focus-visible {
+  color: #be123c;
+  outline: 3px solid #fecdd3;
+  outline-offset: 2px;
+}
+
+.delete-confirmation {
+  width: min(420px, 100%);
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgb(15 23 42 / 25%);
+  text-align: center;
+}
+
+.delete-dialog-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #be123c;
+  background: #ffe4e6;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.delete-confirmation h2 {
+  margin-bottom: 0.65rem;
+}
+
+.delete-confirmation p {
+  margin-bottom: 1.5rem;
+  color: #64748b;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.delete-dialog-actions button {
+  min-width: 6.5rem;
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.delete-dialog-actions .cancel-button {
+  color: #475569;
+  background: #f1f5f9;
+}
+
+.delete-dialog-actions .cancel-button:hover {
+  background: #e2e8f0;
+}
+
+.confirm-delete-button {
+  color: #ffffff;
+  background: #be123c;
+}
+
+.confirm-delete-button:hover {
+  background: #9f1239;
+}
+
+.delete-dialog-actions button:focus-visible {
+  outline: 3px solid #fecdd3;
+  outline-offset: 3px;
 }
 
 @media (max-width: 850px) {
@@ -473,10 +573,15 @@ main {
   }
 
   .transaction-item {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .transaction-item > strong:last-child {
+  .transaction-item > strong {
     grid-column: 2;
+  }
+
+  .delete-button {
+    grid-column: 3;
+    grid-row: 1 / span 2;
   }
 }

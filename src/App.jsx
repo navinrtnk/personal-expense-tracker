@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import DeleteConfirmation from './components/DeleteConfirmation'
 import Summary from './components/Summary'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
@@ -42,6 +43,7 @@ const sampleTransactions = [
 function App() {
   const [transactions, setTransactions] = useState(sampleTransactions)
   const [activeFormType, setActiveFormType] = useState(null)
+  const [transactionToDelete, setTransactionToDelete] = useState(null)
 
   function handleAddTransaction(transaction) {
     setTransactions((currentTransactions) => [
@@ -49,6 +51,15 @@ function App() {
       ...currentTransactions,
     ])
     setActiveFormType(null)
+  }
+
+  function handleDeleteTransaction() {
+    setTransactions((currentTransactions) =>
+      currentTransactions.filter(
+        (transaction) => transaction.id !== transactionToDelete.id,
+      ),
+    )
+    setTransactionToDelete(null)
   }
 
   return (
@@ -87,7 +98,10 @@ function App() {
               </button>
             </div>
           </section>
-          <TransactionList transactions={transactions} />
+          <TransactionList
+            transactions={transactions}
+            onDeleteRequest={setTransactionToDelete}
+          />
         </div>
       </main>
 
@@ -96,6 +110,14 @@ function App() {
           transactionType={activeFormType}
           onAddTransaction={handleAddTransaction}
           onClose={() => setActiveFormType(null)}
+        />
+      )}
+
+      {transactionToDelete && (
+        <DeleteConfirmation
+          transaction={transactionToDelete}
+          onCancel={() => setTransactionToDelete(null)}
+          onConfirm={handleDeleteTransaction}
         />
       )}
     </div>
