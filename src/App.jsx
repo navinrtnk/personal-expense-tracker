@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import Summary from './components/Summary'
 import TransactionForm from './components/TransactionForm'
@@ -41,13 +41,14 @@ const sampleTransactions = [
 
 function App() {
   const [transactions, setTransactions] = useState(sampleTransactions)
-  const descriptionInputRef = useRef(null)
+  const [activeFormType, setActiveFormType] = useState(null)
 
   function handleAddTransaction(transaction) {
     setTransactions((currentTransactions) => [
       { ...transaction, id: crypto.randomUUID() },
       ...currentTransactions,
     ])
+    setActiveFormType(null)
   }
 
   return (
@@ -62,13 +63,41 @@ function App() {
       <main>
         <Summary transactions={transactions} />
         <div className="content-grid">
-          <TransactionForm
-            descriptionInputRef={descriptionInputRef}
-            onAddTransaction={handleAddTransaction}
-          />
+          <section className="transaction-actions" aria-labelledby="actions-heading">
+            <div className="section-heading">
+              <h2 id="actions-heading">New entry</h2>
+              <p>What would you like to record?</p>
+            </div>
+            <div className="action-buttons">
+              <button
+                className="income-button"
+                type="button"
+                onClick={() => setActiveFormType('income')}
+              >
+                <span aria-hidden="true">+</span>
+                Add Income
+              </button>
+              <button
+                className="expense-button"
+                type="button"
+                onClick={() => setActiveFormType('expense')}
+              >
+                <span aria-hidden="true">−</span>
+                Add Expense
+              </button>
+            </div>
+          </section>
           <TransactionList transactions={transactions} />
         </div>
       </main>
+
+      {activeFormType && (
+        <TransactionForm
+          transactionType={activeFormType}
+          onAddTransaction={handleAddTransaction}
+          onClose={() => setActiveFormType(null)}
+        />
+      )}
     </div>
   )
 }

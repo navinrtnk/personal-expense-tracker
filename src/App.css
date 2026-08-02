@@ -40,7 +40,7 @@ main {
 }
 
 .summary,
-.transaction-form,
+.transaction-actions,
 .transactions {
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
@@ -126,6 +126,122 @@ main {
   font-size: 1.25rem;
 }
 
+.action-buttons {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.5rem 2rem 2rem;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 0;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.action-buttons span {
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 18%);
+  font-size: 1.2rem;
+}
+
+.income-button {
+  background: #0f766e;
+}
+
+.income-button:hover {
+  background: #115e59;
+}
+
+.expense-button {
+  background: #be123c;
+}
+
+.expense-button:hover {
+  background: #9f1239;
+}
+
+.action-buttons button:focus-visible {
+  outline: 3px solid #5eead4;
+  outline-offset: 3px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  padding: 1rem;
+  place-items: center;
+  background: rgb(15 23 42 / 55%);
+  backdrop-filter: blur(3px);
+}
+
+.transaction-modal {
+  width: min(500px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgb(15 23 42 / 25%);
+}
+
+.modal-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-heading h2 {
+  margin-bottom: 0;
+}
+
+.income-label,
+.expense-label {
+  margin-bottom: 0.2rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.income-label {
+  color: #0f766e;
+}
+
+.expense-label {
+  color: #be123c;
+}
+
+.close-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 50%;
+  color: #475569;
+  background: #f1f5f9;
+  font: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background: #e2e8f0;
+}
+
 .transaction-entry-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -143,7 +259,7 @@ main {
 
 .full-width-field,
 .transaction-entry-form .form-error,
-.transaction-entry-form button {
+.modal-actions {
   grid-column: 1 / -1;
 }
 
@@ -164,10 +280,23 @@ main {
   outline: 3px solid #ccfbf1;
 }
 
-.transaction-entry-form button {
+.transaction-entry-form select:disabled {
+  color: #64748b;
+  background: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
+.modal-actions button {
   border: 0;
   border-radius: 0.65rem;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   color: #ffffff;
   background: #0f766e;
   font: inherit;
@@ -175,13 +304,35 @@ main {
   cursor: pointer;
 }
 
-.transaction-entry-form button:hover {
+.modal-actions button:hover {
   background: #115e59;
 }
 
-.transaction-entry-form button:focus-visible {
+.modal-actions button:focus-visible,
+.close-button:focus-visible {
   outline: 3px solid #5eead4;
   outline-offset: 3px;
+}
+
+.modal-actions .cancel-button {
+  color: #475569;
+  background: #f1f5f9;
+}
+
+.modal-actions .cancel-button:hover {
+  background: #e2e8f0;
+}
+
+.modal-actions .save-income-button {
+  background: #0f766e;
+}
+
+.modal-actions button:not(.cancel-button, .save-income-button) {
+  background: #be123c;
+}
+
+.modal-actions button:not(.cancel-button, .save-income-button):hover {
+  background: #9f1239;
 }
 
 .form-error {
@@ -305,6 +456,8 @@ main {
   .balance-card,
   .summary-stat,
   .section-heading,
+  .action-buttons,
+  .modal-heading,
   .transaction-entry-form,
   .transaction-item {
     padding-right: 1.25rem;
