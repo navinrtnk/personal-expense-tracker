@@ -146,30 +146,68 @@ main {
   font-size: 1.25rem;
 }
 
-.form-preview {
+.transaction-entry-form {
   display: grid;
-  gap: 0.85rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.85rem;
   padding: 1.5rem 2rem 2rem;
 }
 
-.form-preview span {
+.transaction-entry-form label {
   display: block;
+  margin-bottom: 0.4rem;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.full-width-field,
+.transaction-entry-form .form-error,
+.transaction-entry-form button {
+  grid-column: 1 / -1;
+}
+
+.transaction-entry-form input,
+.transaction-entry-form select {
+  width: 100%;
+  margin-bottom: 0.65rem;
   border: 1px solid #e2e8f0;
   border-radius: 0.65rem;
   padding: 0.75rem;
-  color: #94a3b8;
-  background: #f8fafc;
-  font-size: 0.875rem;
+  color: #0f172a;
+  background: #ffffff;
 }
 
-.form-preview button {
+.transaction-entry-form input:focus,
+.transaction-entry-form select:focus {
+  border-color: #0f766e;
+  outline: 3px solid #ccfbf1;
+}
+
+.transaction-entry-form button {
   border: 0;
   border-radius: 0.65rem;
   padding: 0.75rem;
-  color: #64748b;
-  background: #e2e8f0;
+  color: #ffffff;
+  background: #0f766e;
   font: inherit;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.transaction-entry-form button:hover {
+  background: #115e59;
+}
+
+.transaction-entry-form button:focus-visible {
+  outline: 3px solid #5eead4;
+  outline-offset: 3px;
+}
+
+.form-error {
+  margin-bottom: 0.35rem;
+  color: #be123c;
+  font-size: 0.8rem;
 }
 
 .transaction-list-heading {
@@ -291,7 +329,7 @@ main {
   .balance-card,
   .summary-stat,
   .section-heading,
-  .form-preview,
+  .transaction-entry-form,
   .transaction-item {
     padding-right: 1.25rem;
     padding-left: 1.25rem;

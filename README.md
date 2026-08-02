@@ -6,25 +6,33 @@ useful tool for recording transactions and monitoring spending.
 
 ## Working demo
 
-The current version displays sample transaction data through a reusable React
-component structure. The summary derives the balance, income, and expenses from
-that data, while the transaction list renders an item for each record.
+The app starts with sample transaction data and lets you add income or expenses
+through a controlled React form. New transactions immediately update the
+summary totals, item count, and recent-transactions list.
+
+### Transaction dashboard
 
 ![Personal Expense Tracker desktop demo](docs/expense-tracker-demo.png)
+
+### After adding an expense
+
+![Personal Expense Tracker after adding an expense](docs/expense-tracker-add-demo.png)
 
 ## Current features
 
 - Reusable summary, form, list, and transaction-item components
-- Sample transactions passed through props
-- Stable transaction IDs used as React keys
+- Controlled inputs for description, amount, type, category, and date
+- Add income and expense transactions to React state
+- Basic validation for descriptions and positive amounts
+- Form reset and focus management after submission
+- Stable generated transaction IDs used as React keys
 - Derived balance, income, and expense totals
-- Form placeholder for the next implementation step
 - Responsive application layout
 - Accessible headings, regions, focus styles, and controls
 
 ## Planned features
 
-- Add, edit, and delete transactions
+- Edit and delete transactions
 - Filter transactions by type and category
 - Save transactions with local storage
 

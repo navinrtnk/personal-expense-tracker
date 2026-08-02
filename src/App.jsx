@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import './App.css'
 import Summary from './components/Summary'
 import TransactionForm from './components/TransactionForm'
@@ -39,6 +40,20 @@ const sampleTransactions = [
 ]
 
 function App() {
+  const [transactions, setTransactions] = useState(sampleTransactions)
+  const descriptionInputRef = useRef(null)
+
+  function handleAddTransaction(transaction) {
+    setTransactions((currentTransactions) => [
+      { ...transaction, id: crypto.randomUUID() },
+      ...currentTransactions,
+    ])
+  }
+
+  function focusTransactionForm() {
+    descriptionInputRef.current?.focus()
+  }
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -46,16 +61,23 @@ function App() {
           <p className="eyebrow">Personal finance</p>
           <h1>Expense Tracker</h1>
         </div>
-        <button className="primary-button" type="button">
+        <button
+          className="primary-button"
+          type="button"
+          onClick={focusTransactionForm}
+        >
           Add transaction
         </button>
       </header>
 
       <main>
-        <Summary transactions={sampleTransactions} />
+        <Summary transactions={transactions} />
         <div className="content-grid">
-          <TransactionForm />
-          <TransactionList transactions={sampleTransactions} />
+          <TransactionForm
+            descriptionInputRef={descriptionInputRef}
+            onAddTransaction={handleAddTransaction}
+          />
+          <TransactionList transactions={transactions} />
         </div>
       </main>
     </div>
