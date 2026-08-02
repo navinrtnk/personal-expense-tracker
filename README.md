@@ -1,5 +1,7 @@
 # Personal Expense Tracker
 
+[![Tests](https://github.com/navinrtnk/personal-expense-tracker/actions/workflows/test.yml/badge.svg)](https://github.com/navinrtnk/personal-expense-tracker/actions/workflows/test.yml)
+
 A simple, responsive personal expense tracker built with React and Vite. The
 project is designed to demonstrate core React concepts while growing into a
 useful tool for recording transactions and monitoring spending.
@@ -56,6 +58,26 @@ The expense form offers only expense-related category choices.
 - Vite
 - CSS
 - Oxlint
+- Vitest
+- React Testing Library
+
+## Tests
+
+The test suite covers the initial sample dashboard, calculated totals, modal
+defaults, adding income and expenses, category rules, validation, and rendered
+transaction updates.
+
+Run the complete suite once:
+
+```bash
+npm test
+```
+
+Run tests in watch mode while developing:
+
+```bash
+npm run test:watch
+```
 
 ## Run locally
 
@@ -73,4 +95,6 @@ npm run dev      # Start the development server
 npm run build    # Create a production build
 npm run lint     # Check the source with Oxlint
 npm run preview  # Preview the production build
+npm test         # Run the test suite once
+npm run test:watch # Run tests in watch mode
 ```
