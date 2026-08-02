@@ -1,16 +1,59 @@
-# React + Vite
+# Personal Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A simple, responsive personal expense tracker built with React and Vite. The
+project is designed to demonstrate core React concepts while growing into a
+useful tool for recording transactions and monitoring spending.
 
-Currently, two official plugins are available:
+## Working demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The initial version includes a responsive application shell, a current-balance
+summary, a clear call to action, and an empty state for recent transactions.
 
-## React Compiler
+### Desktop
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+![Personal Expense Tracker desktop demo](docs/expense-tracker-demo.png)
 
-## Expanding the Oxlint configuration
+### Mobile
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+![Personal Expense Tracker mobile demo](docs/expense-tracker-mobile.png)
+
+## Current features
+
+- Responsive desktop and mobile layout
+- Current-balance summary card
+- Recent-transactions section
+- Helpful empty state for new users
+- Accessible headings, regions, focus styles, and controls
+
+## Planned features
+
+- Add, edit, and delete transactions
+- Track income and expenses separately
+- Calculate income, expenses, and current balance
+- Filter transactions by type and category
+- Save transactions with local storage
+
+## Built with
+
+- React
+- Vite
+- CSS
+- Oxlint
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open the local URL printed by Vite in your browser.
+
+## Available scripts
+
+```bash
+npm run dev      # Start the development server
+npm run build    # Create a production build
+npm run lint     # Check the source with Oxlint
+npm run preview  # Preview the production build
+```
