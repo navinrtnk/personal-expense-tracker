@@ -1,5 +1,5 @@
 .app-shell {
-  width: min(960px, calc(100% - 2rem));
+  width: min(1100px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 3rem 0;
 }
@@ -59,7 +59,8 @@ main {
   gap: 1.5rem;
 }
 
-.summary-card,
+.summary,
+.transaction-form,
 .transactions {
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
@@ -67,17 +68,23 @@ main {
   box-shadow: 0 12px 35px rgb(15 23 42 / 6%);
 }
 
-.summary-card {
+.summary {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(150px, 1fr));
+  overflow: hidden;
+}
+
+.balance-card {
   padding: 2rem;
 }
 
-.summary-card p:first-child {
+.balance-card p:first-child {
   margin-bottom: 0.5rem;
   color: #64748b;
   font-weight: 600;
 }
 
-.summary-card strong {
+.balance-card > strong {
   display: block;
   margin-bottom: 0.75rem;
   color: #0f172a;
@@ -85,42 +92,182 @@ main {
   letter-spacing: -0.04em;
 }
 
-.summary-card p:last-child,
-.transactions > div:first-child p,
-.empty-state p {
+.balance-card p:last-child,
+.section-heading p,
+.transaction-details span {
   margin-bottom: 0;
   color: #64748b;
 }
 
-.transactions > div:first-child {
+.summary-stat {
+  display: flex;
+  min-width: 0;
+  padding: 2rem;
+  border-left: 1px solid #e2e8f0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.summary-stat span {
+  margin-bottom: 0.45rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.summary-stat strong {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.income-stat strong,
+.income-amount {
+  color: #0f766e;
+}
+
+.expense-stat strong,
+.expense-amount {
+  color: #be123c;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.8fr) minmax(0, 1.7fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.section-heading {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.transactions h2 {
+.section-heading h2 {
   margin-bottom: 0.25rem;
+  font-size: 1.25rem;
 }
 
-.empty-state {
-  padding: 3.5rem 2rem;
-  text-align: center;
-}
-
-.empty-state span {
+.form-preview {
   display: grid;
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto 1rem;
-  place-items: center;
-  border-radius: 50%;
+  gap: 0.85rem;
+  padding: 1.5rem 2rem 2rem;
+}
+
+.form-preview span {
+  display: block;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  color: #94a3b8;
+  background: #f8fafc;
+  font-size: 0.875rem;
+}
+
+.form-preview button {
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  color: #64748b;
+  background: #e2e8f0;
+  font: inherit;
+  font-weight: 700;
+}
+
+.transaction-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.transaction-count {
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
   color: #0f766e;
   background: #ccfbf1;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.transaction-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.transaction-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 2rem;
+}
+
+.transaction-item + .transaction-item {
+  border-top: 1px solid #f1f5f9;
+}
+
+.transaction-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  font-size: 1.15rem;
   font-weight: 800;
 }
 
-.empty-state h3 {
-  margin-bottom: 0.35rem;
+.income-icon {
+  color: #0f766e;
+  background: #ccfbf1;
+}
+
+.expense-icon {
+  color: #be123c;
+  background: #ffe4e6;
+}
+
+.transaction-details {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.transaction-details strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-details span {
+  font-size: 0.8rem;
+}
+
+.transaction-item > strong:last-child {
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+  .summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .balance-card {
+    grid-column: 1 / -1;
+  }
+
+  .summary-stat {
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .summary-stat:nth-child(2) {
+    border-left: 0;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
@@ -135,5 +282,34 @@ main {
 
   .primary-button {
     width: 100%;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-card,
+  .summary-stat,
+  .section-heading,
+  .form-preview,
+  .transaction-item {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .balance-card {
+    grid-column: auto;
+  }
+
+  .summary-stat {
+    border-left: 0;
+  }
+
+  .transaction-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .transaction-item > strong:last-child {
+    grid-column: 2;
   }
 }
