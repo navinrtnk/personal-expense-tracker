@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import DeleteConfirmation from './components/DeleteConfirmation'
+import FilterBar from './components/FilterBar'
 import Summary from './components/Summary'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
@@ -45,6 +46,15 @@ function App() {
   const [activeFormType, setActiveFormType] = useState(null)
   const [transactionToEdit, setTransactionToEdit] = useState(null)
   const [transactionToDelete, setTransactionToDelete] = useState(null)
+  const [filters, setFilters] = useState({ type: 'all', category: 'all' })
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    const matchesType = filters.type === 'all' || transaction.type === filters.type
+    const matchesCategory =
+      filters.category === 'all' || transaction.category === filters.category
+
+    return matchesType && matchesCategory
+  })
 
   function handleAddTransaction(transaction) {
     setTransactions((currentTransactions) => [
@@ -77,6 +87,25 @@ function App() {
   function closeTransactionForm() {
     setActiveFormType(null)
     setTransactionToEdit(null)
+  }
+
+  function handleTypeFilterChange(type) {
+    setFilters((currentFilters) => {
+      const categoryIsCompatible =
+        currentFilters.category === 'all' ||
+        (type === 'income' && currentFilters.category === 'Income') ||
+        (type === 'expense' && currentFilters.category !== 'Income') ||
+        type === 'all'
+
+      return {
+        type,
+        category: categoryIsCompatible ? currentFilters.category : 'all',
+      }
+    })
+  }
+
+  function clearFilters() {
+    setFilters({ type: 'all', category: 'all' })
   }
 
   return (
@@ -116,9 +145,22 @@ function App() {
             </div>
           </section>
           <TransactionList
-            transactions={transactions}
+            transactions={filteredTransactions}
+            totalTransactionCount={transactions.length}
+            filters={filters}
             onDeleteRequest={setTransactionToDelete}
             onEditRequest={setTransactionToEdit}
+            onClearFilters={clearFilters}
+            filterBar={
+              <FilterBar
+                filters={filters}
+                onCategoryChange={(category) =>
+                  setFilters((currentFilters) => ({ ...currentFilters, category }))
+                }
+                onClear={clearFilters}
+                onTypeChange={handleTypeFilterChange}
+              />
+            }
           />
         </div>
       </main>

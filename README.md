@@ -17,6 +17,19 @@ totals, item count, and recent-transactions list.
 
 ![Expense Tracker dashboard with Add Income and Add Expense actions](docs/expense-tracker-demo.png)
 
+### Filter transactions
+
+Type and category filters can be combined without changing the overall summary
+totals. Category choices adapt to the selected transaction type.
+
+#### Type filter
+
+![Expense Tracker filtered to Income transactions](docs/expense-tracker-type-filter.png)
+
+#### Type and category filters
+
+![Expense Tracker filtered to Housing expenses](docs/expense-tracker-filters.png)
+
 ### Add Income
 
 The income category is preselected and locked so income entries are always
@@ -44,29 +57,8 @@ the entry is removed.
 
 ![Delete transaction confirmation dialog](docs/expense-tracker-delete-dialog.png)
 
-## Current features
-
-- Reusable summary, form, list, and transaction-item components
-- Separate Add Income and Add Expense actions
-- Modal forms with type-specific headings and no redundant type dropdown
-- Income category locked to Income and expense-only category choices
-- Controlled inputs for description, amount, category, and date
-- Add income and expense transactions to React state
-- Edit transactions by clicking anywhere on a transaction row
-- Prefill the modal with the selected transaction's current values
-- Delete transactions through a confirmation dialog
-- Recalculate balance, income, and expenses after edits or deletion
-- Basic validation for descriptions and positive amounts
-- Escape, Cancel, and Close controls for dismissing the modal
-- Automatic form focus when a modal opens
-- Stable generated transaction IDs used as React keys
-- Derived balance, income, and expense totals
-- Responsive application layout
-- Accessible headings, regions, focus styles, and controls
-
 ## Planned features
 
-- Filter transactions by type and category
 - Save transactions with local storage
 
 ## Built with
@@ -84,6 +76,8 @@ The test suite covers the initial sample dashboard, calculated totals, modal
 defaults, adding income and expenses, category rules, validation, and rendered
 transaction updates. It also verifies canceling and confirming transaction
 deletion, editing existing transactions, and the resulting summary calculations.
+Filter coverage includes individual and combined filters, context-aware category
+options, unchanged summary totals, no-results feedback, and clearing filters.
 
 Run the complete suite once:
 

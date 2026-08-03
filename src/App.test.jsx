@@ -161,3 +161,70 @@ describe('editing transactions', () => {
     expect(screen.getByText('$1,350.00')).toBeInTheDocument()
   })
 })
+
+describe('filtering transactions', () => {
+  it('filters the list by income without changing summary totals', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.selectOptions(screen.getByLabelText('Type'), 'income')
+
+    expect(screen.getByText('2 of 4 items')).toBeInTheDocument()
+    expect(screen.getByText('Monthly paycheck')).toBeInTheDocument()
+    expect(screen.getByText('Freelance project')).toBeInTheDocument()
+    expect(screen.queryByText('Apartment rent')).not.toBeInTheDocument()
+    expect(screen.queryByText('Grocery run')).not.toBeInTheDocument()
+    expect(screen.getByText('$2,313.58')).toBeInTheDocument()
+    expect(screen.getByText('$3,650.00')).toBeInTheDocument()
+    expect(screen.getByText('$1,336.42')).toBeInTheDocument()
+  })
+
+  it('combines expense and category filters', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.selectOptions(screen.getByLabelText('Type'), 'expense')
+    await user.selectOptions(screen.getByLabelText('Category'), 'Housing')
+
+    expect(screen.getByText('1 of 4 items')).toBeInTheDocument()
+    expect(screen.getByText('Apartment rent')).toBeInTheDocument()
+    expect(screen.queryByText('Grocery run')).not.toBeInTheDocument()
+    expect(
+      within(screen.getByLabelText('Category')).queryByRole('option', {
+        name: 'Income',
+      }),
+    ).not.toBeInTheDocument()
+  })
+
+  it('resets an incompatible category when the type changes', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.selectOptions(screen.getByLabelText('Category'), 'Food')
+    await user.selectOptions(screen.getByLabelText('Type'), 'income')
+
+    expect(screen.getByLabelText('Category')).toHaveValue('all')
+    expect(screen.getByText('2 of 4 items')).toBeInTheDocument()
+  })
+
+  it('shows a no-results state and clears all filters', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.selectOptions(screen.getByLabelText('Type'), 'expense')
+    await user.selectOptions(screen.getByLabelText('Category'), 'Entertainment')
+
+    expect(screen.getByText('0 of 4 items')).toBeInTheDocument()
+    expect(screen.getByText('No matching transactions')).toBeInTheDocument()
+    expect(
+      screen.getByText('No transactions match the selected filters.'),
+    ).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Clear transaction filters' }))
+
+    expect(screen.getByLabelText('Type')).toHaveValue('all')
+    expect(screen.getByLabelText('Category')).toHaveValue('all')
+    expect(screen.getByText('4 items')).toBeInTheDocument()
+    expect(screen.getByText('Grocery run')).toBeInTheDocument()
+  })
+})
