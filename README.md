@@ -30,6 +30,13 @@ The expense form offers only expense-related category choices.
 
 ![Add Expense modal with expense categories](docs/expense-tracker-expense-modal.png)
 
+### Edit a transaction
+
+Clicking a transaction row opens a prefilled edit modal. Changes are applied
+with the blue Save action.
+
+![Edit Expense modal with prefilled transaction values](docs/expense-tracker-edit-modal.png)
+
 ### Delete a transaction
 
 Each transaction has a delete control that opens a confirmation dialog before
