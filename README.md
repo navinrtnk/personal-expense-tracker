@@ -45,8 +45,10 @@ the entry is removed.
 - Income category locked to Income and expense-only category choices
 - Controlled inputs for description, amount, category, and date
 - Add income and expense transactions to React state
+- Edit transactions by clicking anywhere on a transaction row
+- Prefill the modal with the selected transaction's current values
 - Delete transactions through a confirmation dialog
-- Recalculate balance, income, and expenses after deletion
+- Recalculate balance, income, and expenses after edits or deletion
 - Basic validation for descriptions and positive amounts
 - Escape, Cancel, and Close controls for dismissing the modal
 - Automatic form focus when a modal opens
@@ -57,7 +59,6 @@ the entry is removed.
 
 ## Planned features
 
-- Edit transactions
 - Filter transactions by type and category
 - Save transactions with local storage
 
@@ -75,7 +76,7 @@ the entry is removed.
 The test suite covers the initial sample dashboard, calculated totals, modal
 defaults, adding income and expenses, category rules, validation, and rendered
 transaction updates. It also verifies canceling and confirming transaction
-deletion, including the resulting summary calculations.
+deletion, editing existing transactions, and the resulting summary calculations.
 
 Run the complete suite once:
 

@@ -102,6 +102,7 @@ describe('deleting transactions', () => {
 
     const dialog = screen.getByRole('dialog', { name: 'Delete transaction?' })
     expect(within(dialog).getByText('Apartment rent')).toBeInTheDocument()
+    expect(screen.queryByRole('dialog', { name: 'Edit Expense' })).not.toBeInTheDocument()
 
     await user.click(within(dialog).getByRole('button', { name: 'Cancel' }))
 
@@ -124,5 +125,39 @@ describe('deleting transactions', () => {
     expect(screen.getByText('3 items')).toBeInTheDocument()
     expect(screen.getByText('$2,400.00')).toBeInTheDocument()
     expect(screen.getByText('$1,250.00')).toBeInTheDocument()
+  })
+})
+
+describe('editing transactions', () => {
+  it('edits a transaction and recalculates the summary', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'Edit Grocery run' }))
+
+    const dialog = screen.getByRole('dialog', { name: 'Edit Expense' })
+    const description = within(dialog).getByLabelText('Description')
+    const amount = within(dialog).getByLabelText('Amount')
+    const category = within(dialog).getByLabelText('Category')
+
+    expect(description).toHaveValue('Grocery run')
+    expect(amount).toHaveValue(86.42)
+    expect(category).toHaveValue('Food')
+
+    await user.clear(description)
+    await user.type(description, 'Weekly groceries')
+    await user.clear(amount)
+    await user.type(amount, '100')
+    await user.selectOptions(category, 'Other')
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.queryByText('Grocery run')).not.toBeInTheDocument()
+    expect(screen.getByText('Weekly groceries')).toBeInTheDocument()
+    expect(screen.getByText('Other · Jul 28, 2026')).toBeInTheDocument()
+    expect(screen.getByText('-$100.00')).toBeInTheDocument()
+    expect(screen.getByText('4 items')).toBeInTheDocument()
+    expect(screen.getByText('$2,300.00')).toBeInTheDocument()
+    expect(screen.getByText('$1,350.00')).toBeInTheDocument()
   })
 })

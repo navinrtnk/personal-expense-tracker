@@ -43,6 +43,7 @@ const sampleTransactions = [
 function App() {
   const [transactions, setTransactions] = useState(sampleTransactions)
   const [activeFormType, setActiveFormType] = useState(null)
+  const [transactionToEdit, setTransactionToEdit] = useState(null)
   const [transactionToDelete, setTransactionToDelete] = useState(null)
 
   function handleAddTransaction(transaction) {
@@ -60,6 +61,22 @@ function App() {
       ),
     )
     setTransactionToDelete(null)
+  }
+
+  function handleUpdateTransaction(updatedTransaction) {
+    setTransactions((currentTransactions) =>
+      currentTransactions.map((transaction) =>
+        transaction.id === transactionToEdit.id
+          ? { ...updatedTransaction, id: transaction.id }
+          : transaction,
+      ),
+    )
+    setTransactionToEdit(null)
+  }
+
+  function closeTransactionForm() {
+    setActiveFormType(null)
+    setTransactionToEdit(null)
   }
 
   return (
@@ -101,15 +118,19 @@ function App() {
           <TransactionList
             transactions={transactions}
             onDeleteRequest={setTransactionToDelete}
+            onEditRequest={setTransactionToEdit}
           />
         </div>
       </main>
 
-      {activeFormType && (
+      {(activeFormType || transactionToEdit) && (
         <TransactionForm
-          transactionType={activeFormType}
-          onAddTransaction={handleAddTransaction}
-          onClose={() => setActiveFormType(null)}
+          transaction={transactionToEdit}
+          transactionType={transactionToEdit?.type ?? activeFormType}
+          onSubmitTransaction={
+            transactionToEdit ? handleUpdateTransaction : handleAddTransaction
+          }
+          onClose={closeTransactionForm}
         />
       )}
 

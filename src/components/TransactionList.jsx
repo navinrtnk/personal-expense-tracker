@@ -1,6 +1,6 @@
 import TransactionItem from './TransactionItem'
 
-function TransactionList({ transactions, onDeleteRequest }) {
+function TransactionList({ transactions, onDeleteRequest, onEditRequest }) {
   return (
     <section className="transactions" aria-labelledby="transactions-heading">
       <div className="section-heading transaction-list-heading">
@@ -18,6 +18,7 @@ function TransactionList({ transactions, onDeleteRequest }) {
             key={transaction.id}
             transaction={transaction}
             onDeleteRequest={onDeleteRequest}
+            onEditRequest={onEditRequest}
           />
         ))}
       </ul>

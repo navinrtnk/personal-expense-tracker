@@ -10,12 +10,18 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
 })
 
-function TransactionItem({ transaction, onDeleteRequest }) {
+function TransactionItem({ transaction, onDeleteRequest, onEditRequest }) {
   const isIncome = transaction.type === 'income'
   const amountPrefix = isIncome ? '+' : '-'
 
   return (
     <li className="transaction-item">
+      <button
+        className="edit-row-button"
+        type="button"
+        aria-label={`Edit ${transaction.description}`}
+        onClick={() => onEditRequest(transaction)}
+      />
       <span
         className={`transaction-icon ${isIncome ? 'income-icon' : 'expense-icon'}`}
         aria-hidden="true"

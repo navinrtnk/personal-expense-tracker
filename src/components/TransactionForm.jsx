@@ -7,17 +7,23 @@ const localDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStar
 
 const expenseCategories = ['Food', 'Housing', 'Transportation', 'Entertainment', 'Other']
 
-function TransactionForm({ transactionType, onAddTransaction, onClose }) {
+function TransactionForm({
+  transaction,
+  transactionType,
+  onSubmitTransaction,
+  onClose,
+}) {
   const [formData, setFormData] = useState({
-    description: '',
-    amount: '',
-    category: transactionType === 'income' ? 'Income' : 'Food',
-    date: localDate,
+    description: transaction?.description ?? '',
+    amount: transaction?.amount.toString() ?? '',
+    category: transaction?.category ?? (transactionType === 'income' ? 'Income' : 'Food'),
+    date: transaction?.date ?? localDate,
   })
   const [error, setError] = useState('')
   const descriptionInputRef = useRef(null)
   const isIncome = transactionType === 'income'
-  const formTitle = isIncome ? 'Add Income' : 'Add Expense'
+  const isEditing = Boolean(transaction)
+  const formTitle = `${isEditing ? 'Edit' : 'Add'} ${isIncome ? 'Income' : 'Expense'}`
 
   useEffect(() => {
     descriptionInputRef.current?.focus()
@@ -53,7 +59,7 @@ function TransactionForm({ transactionType, onAddTransaction, onClose }) {
       return
     }
 
-    onAddTransaction({
+    onSubmitTransaction({
       ...formData,
       description,
       amount,
@@ -147,8 +153,13 @@ function TransactionForm({ transactionType, onAddTransaction, onClose }) {
             <button className="cancel-button" type="button" onClick={onClose}>
               Cancel
             </button>
-            <button className={isIncome ? 'save-income-button' : ''} type="submit">
-              {formTitle}
+            <button
+              className={
+                isEditing ? 'save-edit-button' : isIncome ? 'save-income-button' : ''
+              }
+              type="submit"
+            >
+              {isEditing ? 'Save' : formTitle}
             </button>
           </div>
         </form>

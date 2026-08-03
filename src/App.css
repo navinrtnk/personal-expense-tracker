@@ -327,11 +327,19 @@ main {
   background: #0f766e;
 }
 
-.modal-actions button:not(.cancel-button, .save-income-button) {
+.modal-actions .save-edit-button {
+  background: #2563eb;
+}
+
+.modal-actions .save-edit-button:hover {
+  background: #1d4ed8;
+}
+
+.modal-actions button:not(.cancel-button, .save-income-button, .save-edit-button) {
   background: #be123c;
 }
 
-.modal-actions button:not(.cancel-button, .save-income-button):hover {
+.modal-actions button:not(.cancel-button, .save-income-button, .save-edit-button):hover {
   background: #9f1239;
 }
 
@@ -365,11 +373,38 @@ main {
 }
 
 .transaction-item {
+  position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.9rem;
   padding: 1.1rem 2rem;
+}
+
+.transaction-item > :not(.edit-row-button) {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.edit-row-button {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.edit-row-button:hover {
+  background: #f8fafc;
+}
+
+.edit-row-button:focus-visible {
+  border-radius: 0.4rem;
+  outline: 3px solid #99f6e4;
+  outline-offset: -3px;
 }
 
 .transaction-item + .transaction-item {
@@ -428,6 +463,7 @@ main {
   color: #94a3b8;
   background: transparent;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .delete-button svg {
