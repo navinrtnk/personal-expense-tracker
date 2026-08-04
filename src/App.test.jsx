@@ -1,7 +1,12 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import App from './App'
+import { TRANSACTIONS_STORAGE_KEY } from './utils/transactionStorage'
+
+beforeEach(() => {
+  localStorage.clear()
+})
 
 describe('initial expense tracker dashboard', () => {
   it('renders the sample transactions and calculated summary', () => {
@@ -43,7 +48,7 @@ describe('adding transactions', () => {
     await user.type(within(dialog).getByLabelText('Description'), 'Electric bill')
     await user.type(within(dialog).getByLabelText('Amount'), '124.50')
     await user.selectOptions(category, 'Housing')
-    await user.click(within(dialog).getByRole('button', { name: 'Add Expense' }))
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByText('5 items')).toBeInTheDocument()
@@ -67,7 +72,7 @@ describe('adding transactions', () => {
 
     await user.type(within(dialog).getByLabelText('Description'), 'Bonus')
     await user.type(within(dialog).getByLabelText('Amount'), '500')
-    await user.click(within(dialog).getByRole('button', { name: 'Add Income' }))
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByText('Bonus')).toBeInTheDocument()
@@ -83,7 +88,7 @@ describe('adding transactions', () => {
     await user.click(screen.getByRole('button', { name: 'Add Expense' }))
 
     const dialog = screen.getByRole('dialog', { name: 'Add Expense' })
-    await user.click(within(dialog).getByRole('button', { name: 'Add Expense' }))
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
 
     expect(
       within(dialog).getByRole('alert'),
@@ -226,5 +231,77 @@ describe('filtering transactions', () => {
     expect(screen.getByLabelText('Category')).toHaveValue('all')
     expect(screen.getByText('4 items')).toBeInTheDocument()
     expect(screen.getByText('Grocery run')).toBeInTheDocument()
+  })
+})
+
+describe('local storage persistence', () => {
+  it('loads valid saved transactions instead of sample data', () => {
+    localStorage.setItem(
+      TRANSACTIONS_STORAGE_KEY,
+      JSON.stringify([
+        {
+          id: 'saved-transaction',
+          description: 'Saved payment',
+          amount: 200,
+          type: 'income',
+          category: 'Income',
+          date: '2026-08-03',
+        },
+      ]),
+    )
+
+    render(<App />)
+
+    expect(screen.getByText('Saved payment')).toBeInTheDocument()
+    expect(screen.getByText('1 item')).toBeInTheDocument()
+    expect(screen.queryByText('Monthly paycheck')).not.toBeInTheDocument()
+    expect(screen.getAllByText('$200.00')).toHaveLength(2)
+  })
+
+  it('preserves a deliberately empty saved transaction list', () => {
+    localStorage.setItem(TRANSACTIONS_STORAGE_KEY, '[]')
+
+    render(<App />)
+
+    expect(screen.getByText('0 items')).toBeInTheDocument()
+    expect(screen.getByText('No transactions yet')).toBeInTheDocument()
+    expect(screen.queryByText('Monthly paycheck')).not.toBeInTheDocument()
+  })
+
+  it('falls back to sample data when saved data is malformed', () => {
+    localStorage.setItem(TRANSACTIONS_STORAGE_KEY, '{not-valid-json')
+
+    render(<App />)
+
+    expect(screen.getByText('4 items')).toBeInTheDocument()
+    expect(screen.getByText('Monthly paycheck')).toBeInTheDocument()
+  })
+
+  it('saves newly added transactions', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'Add Income' }))
+    const dialog = screen.getByRole('dialog', { name: 'Add Income' })
+    await user.type(within(dialog).getByLabelText('Description'), 'Saved bonus')
+    await user.type(within(dialog).getByLabelText('Amount'), '250')
+    await user.click(within(dialog).getByRole('button', { name: 'Save' }))
+
+    await waitFor(() => {
+      const savedTransactions = JSON.parse(
+        localStorage.getItem(TRANSACTIONS_STORAGE_KEY),
+      )
+
+      expect(savedTransactions).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            description: 'Saved bonus',
+            amount: 250,
+            type: 'income',
+            category: 'Income',
+          }),
+        ]),
+      )
+    })
   })
 })

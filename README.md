@@ -11,11 +11,21 @@ useful tool for recording transactions and monitoring spending.
 The app starts with sample transaction data and provides separate actions for
 adding income and expenses. Each action opens a focused modal form with the
 transaction type already selected. New entries immediately update the summary
-totals, item count, and recent-transactions list.
+totals, item count, and recent-transactions list. Transactions are saved in the
+browser's local storage, so additions, edits, and deletions persist across page
+refreshes without requiring an account or backend.
 
 ### Transaction dashboard
 
 ![Expense Tracker dashboard with Add Income and Add Expense actions](docs/expense-tracker-demo.png)
+
+### Persist transactions
+
+Transactions are stored in the browser after every addition, edit, or deletion.
+The dashboard below shows a newly added expense still present after refreshing
+the page.
+
+![Expense Tracker showing a saved expense after a page refresh](docs/expense-tracker-persistence.png)
 
 ### Filter transactions
 
@@ -57,10 +67,6 @@ the entry is removed.
 
 ![Delete transaction confirmation dialog](docs/expense-tracker-delete-dialog.png)
 
-## Planned features
-
-- Save transactions with local storage
-
 ## Built with
 
 - React
@@ -78,6 +84,9 @@ transaction updates. It also verifies canceling and confirming transaction
 deletion, editing existing transactions, and the resulting summary calculations.
 Filter coverage includes individual and combined filters, context-aware category
 options, unchanged summary totals, no-results feedback, and clearing filters.
+Persistence coverage verifies loading saved transactions, preserving an empty
+saved list, falling back safely when stored data is malformed, and saving new
+transactions.
 
 Run the complete suite once:
 

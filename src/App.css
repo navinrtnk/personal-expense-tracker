@@ -323,24 +323,12 @@ main {
   background: #e2e8f0;
 }
 
-.modal-actions .save-income-button {
-  background: #0f766e;
-}
-
-.modal-actions .save-edit-button {
+.modal-actions .save-transaction-button {
   background: #2563eb;
 }
 
-.modal-actions .save-edit-button:hover {
+.modal-actions .save-transaction-button:hover {
   background: #1d4ed8;
-}
-
-.modal-actions button:not(.cancel-button, .save-income-button, .save-edit-button) {
-  background: #be123c;
-}
-
-.modal-actions button:not(.cancel-button, .save-income-button, .save-edit-button):hover {
-  background: #9f1239;
 }
 
 .form-error {

@@ -153,13 +153,8 @@ function TransactionForm({
             <button className="cancel-button" type="button" onClick={onClose}>
               Cancel
             </button>
-            <button
-              className={
-                isEditing ? 'save-edit-button' : isIncome ? 'save-income-button' : ''
-              }
-              type="submit"
-            >
-              {isEditing ? 'Save' : formTitle}
+            <button className="save-transaction-button" type="submit">
+              Save
             </button>
           </div>
         </form>

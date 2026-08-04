@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import DeleteConfirmation from './components/DeleteConfirmation'
 import FilterBar from './components/FilterBar'
 import Summary from './components/Summary'
 import TransactionForm from './components/TransactionForm'
 import TransactionList from './components/TransactionList'
+import {
+  loadTransactions,
+  saveTransactions,
+} from './utils/transactionStorage'
 
 const sampleTransactions = [
   {
@@ -42,11 +46,17 @@ const sampleTransactions = [
 ]
 
 function App() {
-  const [transactions, setTransactions] = useState(sampleTransactions)
+  const [transactions, setTransactions] = useState(() =>
+    loadTransactions(sampleTransactions),
+  )
   const [activeFormType, setActiveFormType] = useState(null)
   const [transactionToEdit, setTransactionToEdit] = useState(null)
   const [transactionToDelete, setTransactionToDelete] = useState(null)
   const [filters, setFilters] = useState({ type: 'all', category: 'all' })
+
+  useEffect(() => {
+    saveTransactions(transactions)
+  }, [transactions])
 
   const filteredTransactions = transactions.filter((transaction) => {
     const matchesType = filters.type === 'all' || transaction.type === filters.type
